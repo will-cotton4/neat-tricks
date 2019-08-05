@@ -1,0 +1,142 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "name": "Anki Scripts",
+      "version": "0.3.2",
+      "provenance": [],
+      "collapsed_sections": [],
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/will-cotton4/neat-tricks/blob/master/Anki%20Scripts\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "N2Ffchlo_YHR",
+        "colab_type": "code",
+        "outputId": "206558a4-8918-45f1-d77b-eb32ef5028e0",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 136
+        }
+      },
+      "source": [
+        "import re\n",
+        "def clozify(to_cloze):\n",
+        "  \"\"\"\n",
+        "  This function takes in a string to turn into an Anki-ready Cloze flashcard.\n",
+        "  It returns the string with the hidden parts removed, the original string, and\n",
+        "  a list of dictionaries with the both the clozed and un-clozed portions of the\n",
+        "  original string.\n",
+        "  \n",
+        "  Example:\n",
+        "  to_cloze = \"Permutations are for $lists$. Order $matters$.\"\n",
+        "  clozed = clozify(to_cloze)\n",
+        "  # Returns:\n",
+        "  #   ('Permutations are for ----------. Order ----------.',\n",
+        "  #  'Permutations are for $lists$. Order $matters$.',\n",
+        "  #  [{'entry': 'Permutations are for ', 'hidden': False, 'index': 0},\n",
+        "  #   {'entry': 'lists', 'hidden': True, 'index': 1},\n",
+        "  #   {'entry': '. Order ', 'hidden': False, 'index': 2},\n",
+        "  #   {'entry': 'matters', 'hidden': True, 'index': 3},\n",
+        "  #   {'entry': '.', 'hidden': False, 'index': 4}])\n",
+        "  \"\"\"\n",
+        "  clozified = re.split(\"(\\$[^$]*\\$)\", to_cloze)\n",
+        "  try:\n",
+        "    clozified.remove(\"\")\n",
+        "  except:\n",
+        "    pass\n",
+        "  clozified_list = [{'index': i, 'entry':clozified[i].strip(\"$\"), 'hidden':('$' in clozified[i])} for i in range(len(clozified))]\n",
+        "  hidden_cloze = ''\n",
+        "  for item in clozified_list:\n",
+        "    if item['hidden']:\n",
+        "      hidden_cloze += ('-'*10)\n",
+        "    else:\n",
+        "      hidden_cloze += (item['entry'])\n",
+        "  return hidden_cloze, to_cloze, clozified_list\n",
+        "\n",
+        "to_cloze = \"Permutations are for $lists$. Order $matters$.\"\n",
+        "clozed = clozify(to_cloze)\n",
+        "clozed"
+      ],
+      "execution_count": 69,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "('Permutations are for ----------. Order ----------.',\n",
+              " 'Permutations are for $lists$. Order $matters$.',\n",
+              " [{'entry': 'Permutations are for ', 'hidden': False, 'index': 0},\n",
+              "  {'entry': 'lists', 'hidden': True, 'index': 1},\n",
+              "  {'entry': '. Order ', 'hidden': False, 'index': 2},\n",
+              "  {'entry': 'matters', 'hidden': True, 'index': 3},\n",
+              "  {'entry': '.', 'hidden': False, 'index': 4}])"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 69
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "Gv8446QbxVDt",
+        "colab_type": "code",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 119
+        },
+        "outputId": "fab58723-4b6c-4966-af37-d1b74deb8685"
+      },
+      "source": [
+        "Eclozed = clozify(to_cloze)\n",
+        "clozed\n",
+        "\n",
+        "clozed_dict = {'hidden': [item for item in clozed if '$' in item[1]],\n",
+        "               'prompt': [item for item in clozed if '$' not in item[1]],\n",
+        "               'order': clozed}\n",
+        "clozed_dict"
+      ],
+      "execution_count": 49,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "{'hidden': [(1, '$lists.$'), (3, '$matters.$')],\n",
+              " 'order': [(0, 'Permutations are for '),\n",
+              "  (1, '$lists.$'),\n",
+              "  (2, ' Order '),\n",
+              "  (3, '$matters.$')],\n",
+              " 'prompt': [(0, 'Permutations are for '), (2, ' Order ')]}"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 49
+        }
+      ]
+    }
+  ]
+}
