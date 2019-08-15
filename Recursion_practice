@@ -1,0 +1,97 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "name": "Recursion practice",
+      "version": "0.3.2",
+      "provenance": [],
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/will-cotton4/neat-tricks/blob/master/Recursion_practice\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "GLf9dmo0-9Yf",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "# Sum of a list of numbers using recursion\n",
+        "\n",
+        "def recurs_sum(num_list, summed):\n",
+        "  i = num_list[0]\n",
+        "  summed += i\n",
+        "  if len(num_list[1:]) != 0:\n",
+        "    summed = recurs_sum(num_list[1:], summed)\n",
+        "  return summed"
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "S6X7Pj3P_9SQ",
+        "colab_type": "code",
+        "outputId": "4c7ef4b2-1a3d-4b2a-8fac-8eae4e6e2722",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 34
+        }
+      },
+      "source": [
+        "recurs_sum([1,2,3,4], 0)"
+      ],
+      "execution_count": 0,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "10"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 7
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "7l-4EejdGzWm",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "convert_to_base_n(number, n, string):\n",
+        "  if number<n:\n",
+        "    string = string + str(number)\n",
+        "  else:\n",
+        "    string = convert_to_base_n()\n",
+        "    \n",
+        "convert"
+      ],
+      "execution_count": 0,
+      "outputs": []
+    }
+  ]
+}
